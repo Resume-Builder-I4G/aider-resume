@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Google fonts -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+    <title>Aider's Template A</title>
+    <!-- Original Stylesheet -->
+    <!-- <link rel="stylesheet" href="../../../static/Resume-Templates/template-A/style.css"> -->
+</head>
+<body>
+    <div class="main">
+        <div class="left">
+            <div class="about__container">
+                <div class="about__image">
+                    <img src="{{request.host_url}}/static/avatars/{{resume.avatar}}" alt="about img" width="100">
+                </div>
+                {% if resume.about %}
+                <div class="about__text">
+                    <h2 class="section_title">
+                        About
+                    </h2>
+                    <p>{{resume.about}}</p>
+                </div>
+                {% endif %}
+            </div>
+            <div class="education__container">
+                <h2 class="section_title">Education</h2>
+                <ul>
+                    {% for edu in resume.educations %}
+                        <li class='education_item'>
+                            <p class="education_course">{{edu.degree}} {{edu.course}}</p>
+                            <p class="education_institute">{{edu.school}}</p>
+                            <p class="education_location">{{edu.location}}</p>
+                            {% if edu.description %}
+                                <p class="education_description">{{edu.description}}</p>
+                            {% endif %}
+                            <p class="education_duration">
+                                <em>
+                                    {% if edu.start_month %}{{edu.start_month}}{% endif %}
+                                    {{edu.start_year}} - 
+                                    {% if edu.end_month %}{{edu.end_month}}{% endif %}
+                                    {% if edu.end_year %}{{edu.end_year}}
+                                    {% else %} Present{% endif %}
+                                </em>
+                            </p>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <div class="languages__container">
+                <h2 class="section_title">Languages</h2>
+                <ul class='language-items-container'>
+                    {% for language in resume.languages %}
+                    <li class='language-item'>
+                        <span class="language">{{language.name}}</span><span class="lang_score">{{language.proficiency}}</span>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <div class="skills__container">
+                <h2 class="section_title">Skills</h2>
+                <ul>
+                    {% for skill in resume.skills %}
+                    <li class="skill-item"><span class="skill">{{skill.name}}</span></li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+        <div class="right">
+            <div class="infoncontactact__container">
+                <div class="info">
+                    <h1 class="name">{{resume.name}}</h1>
+                    <p class="role">{{resume.current_job}}</p>
+                </div>
+                <div class="contact">
+                    <h3 class="sub-section-title">Contact</h3>
+                    <ul>
+                        <li><img src="" alt=""> <span>
+                                {{resume.city}}, {{resume.state}}, {{resume.country}}</span></li>
+                        <li><img src="" alt=""> <span>{{resume.phone}}</span></li>
+                        <li><img src="" alt=""> <span>{{resume.email}}</span></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="experience__container">
+                <h2 class="section_title">Work Experience</h2>
+                {% for work in resume.experiences %}
+                    <div class="experience-item">
+                        <div class="experience-name-n-year">
+                            <p class="experience-name">{{work.company}}</p>
+                            <p class="experience-year"><em>{{work.start_year}} - {% if work.end_year %}{{work.end_year}}{%else%}Present{% endif %}</em></p>
+                        </div>
+                        <p class="experience-role">{{work.title}}</p>
+                        <!-- <p class="experience-location">{{work.state}}, {{work.country}}</p> -->
+                        <p class="experience-description">{{work.description}}</p>
+                    </div>
+                {% endfor %}
+            </div>
+            <div class="ceritificate__container">
+                <h2 class="section_title">Certificates</h2>
+                {% for certificate in resume.certificates %}
+                    <div class="certificate-item">
+                        <div class="ceritifcate-name-n-year">
+                            <p class="certificate-name">{{certificate.name}}</p>
+                            <p class="certificate-year">{{certificate.year}}</p>
+                        </div>
+                        <p class="certificate-organization">{{certificate.organization}}</p>
+                    </div>
+                {% endfor %}
+            </div>
+            <div class="reference__container">
+                <h2 class="section_title">References</h2>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,191 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background: #F1F3F4;
+}
+
+.main {
+    display: flex;
+    width: 595px;
+    margin: 2.5vh auto 0;
+    background-color: #fff;
+}
+
+.section_title {
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 19px;
+    margin-bottom: 10px;
+}
+
+.left {
+    width: 34.45%;
+    background-color: #413C3C;
+    color: #fff;
+    padding: 20px 10px 30px 20px;
+}
+
+.about__container,
+.education__container,
+.languages__container {
+    margin-bottom: 20px;
+}
+
+.about__image {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 25px;
+}
+
+.about__text p {
+    font-size: 8px;
+    font-weight: 400;
+    line-height: 12px;
+}
+
+.education__container ul {
+    list-style: none;
+}
+
+.education_item {
+    margin-bottom: 15px;
+}
+
+p.education_course {
+    font-size: 10px;
+    font-weight: 500;
+    line-height: 12px;
+}
+
+p.education_institute,
+p.education_description,
+p.education_location,
+p.education_duration {
+    font-size: 8px;
+    font-weight: 400;
+    line-height: 12px;
+}
+
+.language-items-container {
+    width: 70%;
+}
+
+.language-item {
+    display: flex;
+    justify-content: space-between;
+    font-size: 8px;
+    font-weight: 400;
+    line-height: 12px;
+}
+
+.skills__container ul {
+    list-style: none;
+}
+
+.skill-item {
+    font-size: 8px;
+    font-weight: 400;
+    line-height: 12px;
+}
+
+/* Right Side */
+
+.right {
+    padding: 20px 25px;
+}
+
+.infoncontactact__container {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 13px;
+}
+
+.info {
+    width: 65%;
+}
+
+h1.name {
+    font-size: 36px;
+    font-weight: 600;
+    line-height: 44px;
+    margin-bottom: 10px;
+}
+
+p.role {
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 15px;
+}
+
+h3.sub-section-title {
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 19px;
+    margin-bottom: 10.5px;
+}
+
+.contact ul {
+    list-style: none;
+}
+
+.contact ul li {
+    font-size: 8px;
+    font-weight: 400;
+    line-height: 10px;
+    margin-bottom: 15px;
+}
+
+.contact ul li:last-child {
+    margin-bottom: 0;
+}
+
+.experience-item {
+    font-size: 8px;
+    font-weight: 400;
+    line-height: 12px;
+    margin-bottom: 20px;
+}
+
+.experience-name-n-year {
+    display: flex;
+    justify-content: space-between;
+}
+
+.experience-item p.experience-name {
+    font-size: 10px;
+    font-weight: 500;
+    line-height: 12px;
+}
+
+.certificate-item {
+    margin-bottom: 10px;
+
+}
+
+.ceritifcate-name-n-year {
+    display: flex;
+    justify-content: space-between;
+}
+
+.certificate-name {
+    font-size: 10px;
+    font-weight: 500;
+    line-height: 12px;
+}
+
+.certificate-year {
+    font-size: 10px;
+    font-weight: 400;
+    line-height: 12px;
+}
+
+.certificate-organization {
+    font-size: 8px;
+    font-weight: 400;
+    line-height: 12px;
+}

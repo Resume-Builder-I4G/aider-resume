@@ -1,0 +1,10 @@
+Hello {{u.name}},
+
+Welcome to Aider.
+
+Confirm your account {{url_for('users.confirm_account', _external=True)}}
+
+Best regards,
+Babatunde Koiki,
+CTO,
+Aider
