@@ -31,10 +31,16 @@ def create_user():
         u.set_password(data['password'])
         db.session.add(u)
         db.session.commit()
-        send_mail(
-            [u.email], 'Welcome to Aider', 
-            'mail/welcome', u=u
-        )
+        try:
+            send_mail(
+                [u.email], 'Welcome to Aider', 
+                'mail/welcome', u=u
+            )
+        except Exception as e:
+            return {
+                'error': 'Something went wrong',
+                'message': str(e)
+            }, 500
         return u.to_dict(), 201
     except Exception as e:
         return {

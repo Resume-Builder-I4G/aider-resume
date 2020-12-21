@@ -1,6 +1,7 @@
 import os
 from typing import List
 from app import db
+from app.email import send_mail
 from app.models import Resume, User
 from flask import (
     current_app as app, render_template, make_response, request
@@ -154,15 +155,7 @@ def delete_resume(current_user, id):
     db.session.commit()
     return '', 204
 
-@resume_bp.route('/download/<int:id>/')
-# @token_required
-def download_resume(id):
-    r=Resume.query.get_or_404(id)
-    # if current_user != r.users:
-    #     return {
-    #         'error': 'Forbidden',
-    #         'message': 'You do not have access to that!'
-    #     }, 403
+def resume_downloader(r):
     templates = {
         'a': 'template-A'
     }
@@ -179,3 +172,31 @@ def download_resume(id):
     pdf.headers['Content-Type'] = 'application/pdf'
     pdf.headers['Content-Disposition'] = f'inline; {r.users.name}.pdf'
     return pdf
+
+@resume_bp.route('/download/<int:id>/')
+@token_required
+def download_resume(current_user, id):
+    r=Resume.query.get_or_404(id)
+    if current_user != r.users:
+        return {
+            'error': 'Forbidden',
+            'message': 'You do not have access to that!'
+        }, 403
+    pdf = resume_downloader(r)
+    return pdf
+
+@resume_bp.route('/mail/<int:id>/')
+@token_required
+def get_resume_in_mail(current_user, id):
+    r=Resume.query.get_or_404(id)
+    if current_user != r.users:
+        return {
+            'error': 'Forbidden',
+            'message': 'You do not have access to that!'
+        }, 403
+    pdf = resume_downloader(r)
+    send_mail(
+            [current_user.email], 'Here is your resume', 
+            'mail/reset_password', attachments=pdf , u=current_user
+        )
+

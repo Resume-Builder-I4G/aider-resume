@@ -10,7 +10,7 @@ def send_async_email(app:app, msg:Message):
 def send_mail(recipients, subject, template, attachment=None, **kwargs):
     msg = Message(subject=subject, 
                 recipients=recipients,
-                sender='koikibabatunde14@gmail.com')
+                sender=app.config['MAIL_USERNAME'])
     msg.body = render_template(template + '.txt', **kwargs)    
     msg.html = render_template(template + '.html', **kwargs)
     if attachment:
