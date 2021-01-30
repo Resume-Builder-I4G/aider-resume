@@ -19,7 +19,7 @@ def token_required(f):
                 'message': 'You did not provide a token'
                 }), 401
         try:
-            data=jwt.decode(token, current_app.config['SECRET_KEY'])
+            data=jwt.decode(token, current_app.config['SECRET_KEY'], algorithms=["HS256"])
             current_user=models.User.query.get_or_404(int(data['user_id']))
             if current_user is None:
                 return jsonify({

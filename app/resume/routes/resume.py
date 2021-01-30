@@ -1,5 +1,5 @@
 import os
-from typing import List
+from typing import List, Dict
 from app import db
 from app.email import send_mail
 from app.models import Resume, User
@@ -15,14 +15,14 @@ from .utils import save_pic, html_to_pdf
 @token_required
 def create_resume(current_user: User) -> dict:
     try:
-        data: dict = request.form
+        data: Dict[str: str] = request.form
         if not 'name' in data or not 'email' in data or not 'phone' in data \
             or not 'state' in data  or not 'country' in data:
             return {
                 'error': 'Invalid data',
                 'message': 'Name, email, phone, state, country must be given'
             }, 400
-        templates:List[str]=['a', 'b'] # add the list of available templates
+        templates: List[str]=['a', 'b'] # add the list of available templates
         if 'template name' not in data or data['template name'] not in templates:
             return {
                 'error': 'Invalid data',
@@ -31,11 +31,11 @@ def create_resume(current_user: User) -> dict:
     except Exception as e:
         return {
             'error': 'Bad input',
-            'message': ''
+            'message': str(e)
         }
     r = Resume(
         name=data['name'], email=data['email'], 
-        phone=data['phone'], state=data['state'],
+        phone=int(data['phone'].replace('+', '')), state=data['state'],
         country=data['country'], template_name=data['template name'], 
         user_id=current_user.id
         )
@@ -102,7 +102,6 @@ def update_resume(current_user, id):
                 'error': 'Invalid data',
                 'message': 'Invalid template'
             }, 400
-        r = Resume.query.get_or_404(id)
         if data.get('name'):
             # validate input
             r.name=data['name']

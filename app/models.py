@@ -51,7 +51,7 @@ class Resume(db.Model):
     email=db.Column(db.String, index=True)
     avatar=db.Column(db.String, index=True)
     website=db.Column(db.String, index=True)
-    phone=db.Column(db.Integer)
+    phone=db.Column(db.String)
     city=db.Column(db.String, index=True)
     state=db.Column(db.String, index=True)
     country=db.Column(db.String, index=True)

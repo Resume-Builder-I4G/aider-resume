@@ -1,4 +1,3 @@
-from flask.wrappers import Response
 import jwt
 from flask import current_app as app, request, render_template
 from . import users_bp, token_required
@@ -18,8 +17,8 @@ def create_user():
         if len(data['name']) < 5 or len(data['email']) < 8 or len(data['password']) < 8:
             return {
                 'error': 'Invalid Data',
-                'message': 'Name must be ateast 5 characters, \
-                email must be atleast 8 characters and password must be atleast 8 characters'
+                'message': 'Name must be ateast 5 characters, email must be'
+                    'atleast 8 characters and password must be atleast 8 characters'
             }, 400
         u = User.query.filter_by(email=data['email']).first()
         if u:
@@ -31,16 +30,16 @@ def create_user():
         u.set_password(data['password'])
         db.session.add(u)
         db.session.commit()
-        try:
-            send_mail(
-                [u.email], 'Welcome to Aider', 
-                'mail/welcome', u=u
-            )
-        except Exception as e:
-            return {
-                'error': 'Something went wrong',
-                'message': str(e)
-            }, 500
+        # try:
+        #     send_mail(
+        #         [u.email], 'Welcome to Aider', 
+        #         'mail/welcome', u=u
+        #     )
+        # except Exception as e:
+        #     return {
+        #         'error': 'Something went wrong',
+        #         'message': str(e)
+        #     }, 500
         return u.to_dict(), 201
     except Exception as e:
         return {
@@ -64,10 +63,19 @@ def get_token():
                 'error': 'Invalid Data',
                 'message': 'invalid email or password'
             }, 400
-        token = jwt.encode({'user_id': str(u.id)}, app.config['SECRET_KEY'])
-        return {
-            'token': token.decode('utf-8')
-        }, 200
+        try:
+            token = jwt.encode(
+                {'user_id': str(u.id)},
+                app.config['SECRET_KEY']
+            )
+            return {
+                'token': token
+            }, 200
+        except Exception as e:
+            return {
+                'error': 'Sonething went wrong',
+                'message': str(e)
+            }, 500
     except Exception as e:
         return {
             'error': 'Bad data',
@@ -76,7 +84,7 @@ def get_token():
 
 @users_bp.route('/', methods=['PUT'])
 @token_required
-def update_users(current_user):
+def update_user(current_user: User):
     try:
         data = request.get_json()
         if 'name' not in data:
@@ -118,14 +126,14 @@ def get_password_reset_token():
     print(u)
     if u:
         token = u.get_reset_token()
-        send_mail(
-            [u.email], 'Reset Your Password', 
-            'mail/reset_password', token=token, u=u
-        )
+        # send_mail(
+        #     [u.email], 'Reset Your Password', 
+        #     'mail/reset_password', token=token, u=u
+        # )
 
-    return {
-        'success': 'Instructions on how to change your password has been sent to your mail!'
-    }
+        return {
+            'url': request.host_url+'api/v2/users/reset_password/'+token
+        }
 
 @users_bp.route('/reset_password/<token>/', methods=['POST'])
 def reset_password(token):
@@ -133,6 +141,12 @@ def reset_password(token):
         return {
             'error': 'Forbidden'
         }, 403
+    data = request.get_json()
+    if 'password' not in data or 'confirm password' not in \
+            data or data['password'] !=data['confirm password'] or len(data['password'] < 8):
+        return {
+            'error': 'Password and confirm password must be given and must be equal and should be at'
+        }, 400
     user = User.verify_reset_token(token)
     if user is not None:
         user.set_password(request.get_json()['password'])
