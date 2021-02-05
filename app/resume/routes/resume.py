@@ -8,7 +8,7 @@ from flask import (
 )
 
 from .. import resume_bp, token_required
-from .utils import save_pic, html_to_pdf
+from .utils import save_pic, html_to_pdf 
 
 
 @resume_bp.route('/', methods=['POST'])
